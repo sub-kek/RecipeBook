@@ -18,6 +18,7 @@ jobs:
           java-version: 21
           cache: 'gradle'
       - uses: gradle/actions/setup-gradle@v4
+        cache-disabled: true
       - name: Build
         run: ./gradlew build
       - name: Upload Artifact

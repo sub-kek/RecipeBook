@@ -5,6 +5,7 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
 import org.slf4j.Logger
 import space.subkek.recipebook.command.RecipesCommand
+import space.subkek.recipebook.gui.RecipeGuiListener
 
 class RecipeBook : JavaPlugin() {
   companion object {
@@ -23,7 +24,7 @@ class RecipeBook : JavaPlugin() {
   }
 
   private fun registerEvents() {
-    // Да да одна из самых важных вещей где
+    server.pluginManager.registerEvents(RecipeGuiListener(), this)
   }
 
   private fun registerCommands() {

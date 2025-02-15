@@ -1,38 +1,38 @@
 package space.subkek.recipebook.gui
 
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.Recipe
 import org.bukkit.inventory.ShapedRecipe
+import org.bukkit.inventory.meta.ItemMeta
 
-object RecipeGUI {
-  private const val GUI_SIZE = 54
-  private const val GUI_TITLE = "Custom Recipes"
+object RecipeGui {
+  val playersOpened = mutableSetOf<Player>()
+
+  private const val ROW_SIZE = 9
+  const val GUI_SIZE = ROW_SIZE * 6
+  const val RECIPES_PER_PAGE = GUI_SIZE - ROW_SIZE
 
   fun open(player: Player) {
-    val inventory = Bukkit.createInventory(null, GUI_SIZE, GUI_TITLE)
-
     val recipes = getCustomRecipes()
-    for ((index, recipe) in recipes.withIndex()) {
-      if (index >= GUI_SIZE) break
-      inventory.setItem(index, createRecipeItem(recipe))
-    }
+    val holder = RecipeGuiHolder(recipes.map { it.result })
 
-    player.openInventory(inventory)
+    holder.setPage(player, 0)
   }
 
   private fun getCustomRecipes(): List<Recipe> {
     return Bukkit.recipeIterator().asSequence()
-      .filter { it is ShapedRecipe && it.key.namespace == "custom_namespace" } // Фильтруем по namespace
+      .filter { it is ShapedRecipe && it.key.namespace == "minecraft" } // Фильтруем по namespace
       .toList()
   }
 
-  private fun createRecipeItem(recipe: Recipe): ItemStack {
-    val result = recipe.result
-    val meta = result.itemMeta
-    meta?.setDisplayName("§e${result.type.name} Recipe")
-    result.itemMeta = meta
-    return result
+  fun createNavigationItem(name: String, material: Material): ItemStack {
+    val item = ItemStack(material)
+    val meta: ItemMeta? = item.itemMeta
+    meta?.setDisplayName(name)
+    item.itemMeta = meta
+    return item
   }
 }
