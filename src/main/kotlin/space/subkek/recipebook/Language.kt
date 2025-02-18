@@ -7,7 +7,11 @@ enum class Language(private val content: String) {
   // Yes, it is really stupid way to make language.
   // #TODO Make multi-language support without changing something else
   PREFIX("<#ff5e45>RecipeBook » <#ff8c00> "),
-  RECIPE_GUI_TITLE("Книга рецептов {0}/{1}"),
+  RECIPE_GUI_TITLE("Книга рецептов"),
+  PREVIOUS_PAGE("<yellow>⬅ Назад"),
+  NEXT_PAGE("<yellow>➡ Вперед"),
+  CURRENT_PAGE("<green>\uD83D\uDCC4 Страница {0}/{1}"),
+  EXIT("<red>\uD83D\uDEAA Выйти"),
   NO_PERMISSION("<red>У вас нет прав на использование команды.");
 
   private fun string(): String {
